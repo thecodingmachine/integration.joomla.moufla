@@ -1,7 +1,8 @@
 <?php
 
-class Moufla {
+namespace Mouf\Integration\Joomla\Moufla;
 
+class Moufla {
     public function doSomething() {
         var_dump("level complete"); exit;
     }

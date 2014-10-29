@@ -26,6 +26,6 @@
 		"mouf/mvc.splash-implementation" : "4.3.*"
 	},
 	"autoload": {
-        "psr-4": {"Mouf\\Integration\\Joomla\\": "src/"}
+        "psr-4": {"Mouf\\Integration\\Joomla\\Moufla\\": "src/"}
     }
 }
