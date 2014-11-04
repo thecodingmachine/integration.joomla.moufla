@@ -32,7 +32,7 @@
             "install": [
                 {
                 "type": "class",
-                "class": "namespace Mouf\\Integration\\Joomla\\Moufla\\MouflaInstaller",
+                "class": "Mouf\\Integration\\Joomla\\Moufla\\MouflaInstaller",
                 "scope": "local",
                 "description": "No description for the moment (or for ever niahahah...)"
                 }
