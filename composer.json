@@ -26,5 +26,17 @@
 	},
 	"autoload": {
         "psr-4": {"Mouf\\Integration\\Joomla\\Moufla\\": "src/"}
+    },
+    "extra": {
+        "mouf": {
+            "install": [
+                {
+                "type": "class",
+                "class": "namespace Mouf\\Integration\\Joomla\\Moufla\\MouflaInstaller",
+                "scope": "local",
+                "description": "No description for the moment (or for ever niahahah...)"
+                }
+            ]
+        }
     }
 }
