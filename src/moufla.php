@@ -2,17 +2,21 @@
 
 namespace Mouf\Integration\Joomla\Moufla;
 
+use Mouf;
 use Mouf\Mvc\Splash;
+use Symfony\Component\HttpFoundation\Request;
 
 class Moufla {
 
-    function __construct() {
-        var_dump("constructor Moufla");
-        $router = \Mouf::getSplashDefaultRouter();
-        $router->handle();
-    }
-
-    public function doSomething() {
-        var_dump("level complete"); exit;
+    /**
+     * This function will ask the Mouf router for routes. A Symfony response will be return with content, or a Vary
+     * array set with the value 'mouflaNotFound' at the first pos
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function searchForRoute() {
+        $router = Mouf::getSplashDefaultRouter();
+        $request = Request::createFromGlobals();
+        $response = $router->handle($request);
+        return $response;
     }
 }
