@@ -47,7 +47,7 @@ class JoomlaTemplate extends TemplateInterface {
 
     /**
      * Renders the object in HTML.
-     * 
+     *
      * The Html is echoed directly into the output.
      */
     function toHtml() {
