@@ -34,7 +34,7 @@
                 "type": "class",
                 "class": "Mouf\\Integration\\Joomla\\Moufla\\MouflaInstaller",
                 "scope": "local",
-                "description": "No description for the moment (or for ever niahahah...)"
+                "description": "Install routers to handle Joomla. This is Moufla!"
                 }
             ]
         }

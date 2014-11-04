@@ -2,6 +2,7 @@
 
 namespace Mouf\Integration\Joomla\Moufla;
 
+use Mouf\Actions\InstallUtils;
 use Mouf\Installer\PackageInstallerInterface;
 use Mouf\MoufManager;
 
