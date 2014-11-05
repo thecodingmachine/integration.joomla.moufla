@@ -63,7 +63,6 @@ class JoomlaTemplate implements TemplateInterface {
     /**
      * Sets the web library manager for this template.
      *
-     * @Property
      * @param WebLibraryManager $webLibraryManager
      * @return JoomlaTemplate
      */
