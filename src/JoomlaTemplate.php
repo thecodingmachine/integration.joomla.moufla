@@ -12,7 +12,7 @@ class JoomlaTemplate extends TemplateInterface {
      * The main content block of the page.
      * @var HtmlBlock
      */
-    private $content;
+    protected $content;
 
     /**
      * @var boolean if the template has been called or not
@@ -20,10 +20,24 @@ class JoomlaTemplate extends TemplateInterface {
     private $templateCalled;
 
     /**
+     * The title of the HTML page
+     *
+     * @var string
+     */
+    private $title;
+
+    /**
+     * The weblibrarymanager is in charge of handing JS files.
+     *
+     * @var WebLibraryManagerInterface
+     */
+    private $webLibraryManager;
+
+    /**
      * @param $content
      */
     public function __construct($content) {
-       $this->templateCalled = false;
+        $this->templateCalled = false;
         $this->content = $content;
     }
 
@@ -33,7 +47,8 @@ class JoomlaTemplate extends TemplateInterface {
      * @return TemplateInterface
      */
     public function setTitle($title) {
-        return $this;
+        $this->title = $title;
+        return $this->title;
     }
 
     /**
@@ -42,7 +57,19 @@ class JoomlaTemplate extends TemplateInterface {
      * @return WebLibraryManager
      */
     public function getWebLibraryManager() {
+        return $this->webLibraryManager;
+    }
 
+    /**
+     * Sets the web library manager for this template.
+     *
+     * @Property
+     * @param WebLibraryManager $webLibraryManager
+     * @return JoomlaTemplate
+     */
+    public function setWebLibraryManager(WebLibraryManager $webLibraryManager) {
+        $this->webLibraryManager = $webLibraryManager;
+        return $this;
     }
 
     /**
