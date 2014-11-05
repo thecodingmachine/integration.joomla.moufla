@@ -18,15 +18,6 @@ class MouflaInstaller implements PackageInstallerInterface {
     public static function install(MoufManager $moufManager) {
         $moufManager = MoufManager::getMoufManager();
 
-        $configManager = $moufManager->getConfigManager();
-        $constants = $configManager->getMergedConstants();
-        if ($configManager->getConstantDefinition('SECRET') === null) {
-            $configManager->registerConstant('SECRET', 'string', 'BSzVXjnWTgc5ojRHVyCB', 'A random string. It should be different for any application deployed.');
-        }
-        if ($configManager->getConstantDefinition('DEBUG') === null) {
-            $configManager->registerConstant('DEBUG', 'bool', 'true', 'Set to true to enable debug/development mode.');
-        }
-
         // Provide a defaultWebLibraryRenderer adapted to Joomla
         if ($moufManager->instanceExists("defaultWebLibraryRenderer")) {
             // Let's remove the default defaultWebLibraryRenderer :)
@@ -43,19 +34,17 @@ class MouflaInstaller implements PackageInstallerInterface {
         $joomlaTemplate = InstallUtils::getOrCreateInstance('joomlaTemplate', 'Mouf\\Integration\\Joomla\\Moufla\\JoomlaTemplate', $moufManager);
         $content_block = InstallUtils::getOrCreateInstance('block.content', 'Mouf\\Html\\HtmlElement\\HtmlBlock', $moufManager);
 
-
-        $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
-
         // Let's bind instances together.
+        if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
+            $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
+        }
         if (!$joomlaTemplate->getConstructorArgumentProperty('content')->isValueSet()){
             $joomlaTemplate->getConstructorArgumentProperty('content')->setValue($content_block);
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
         }
-        if (!$splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->isValueSet()) {
-            $splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->setValue($mouflaNotFoundRouter);
-        }
+        $splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->setValue($mouflaNotFoundRouter);
         if (!$splashCacheApc->getPublicFieldProperty('prefix')->isValueSet()) {
             $splashCacheApc->getPublicFieldProperty('prefix')->setValue('SECRET');
             $splashCacheApc->getPublicFieldProperty('prefix')->setOrigin("config");
