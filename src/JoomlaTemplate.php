@@ -7,7 +7,7 @@ use Mouf\Html\HtmlElement\HtmlBlock;
 use Mouf\Html\Template\TemplateInterface;
 use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 
-class JoomlaTemplate extends TemplateInterface {
+class JoomlaTemplate implements TemplateInterface {
     /**
      * The main content block of the page.
      * @var HtmlBlock
@@ -34,7 +34,7 @@ class JoomlaTemplate extends TemplateInterface {
     private $webLibraryManager;
 
     /**
-     * @param $content
+     * @param HtmlBlock $content
      */
     public function __construct($content) {
         $this->templateCalled = false;
@@ -43,7 +43,7 @@ class JoomlaTemplate extends TemplateInterface {
 
     /**
      * Sets the title for the HTML page
-     * @param $title
+     * @param string $title
      * @return TemplateInterface
      */
     public function setTitle($title) {
@@ -79,6 +79,7 @@ class JoomlaTemplate extends TemplateInterface {
      */
     function toHtml() {
         $this->templateCalled = true;
+        $this->webLibraryManager->toHtml();
         $this->content->toHtml();
     }
 
