@@ -19,7 +19,6 @@
 	"require" : {
 		"php" : ">=5.3.0",
 		"mouf/mouf" : "~2.0",
-		"mouf/mvc.splash" : "~5.0",
 		"mouf/mvc.splash-common" : "~5.0"
 	},
 	"autoload": {
