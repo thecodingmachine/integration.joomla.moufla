@@ -21,7 +21,10 @@ class MouflaInstaller implements PackageInstallerInterface {
         $configManager = $moufManager->getConfigManager();
         $constants = $configManager->getMergedConstants();
         if ($configManager->getConstantDefinition('SECRET') === null) {
-            $configManager->registerConstant('SECRET', 'string', 'BSHVXjnWTgc5ojRHVyCB', 'A random string. It should be different for any application deployed.');
+            $configManager->registerConstant('SECRET', 'string', 'BSzVXjnWTgc5ojRHVyCB', 'A random string. It should be different for any application deployed.');
+        }
+        if ($configManager->getConstantDefinition('DEBUG') === null) {
+            $configManager->registerConstant('DEBUG', 'bool', 'true', 'Set to true to enable debug/development mode.');
         }
 
         // Provide a defaultWebLibraryRenderer adapted to Joomla
@@ -41,13 +44,11 @@ class MouflaInstaller implements PackageInstallerInterface {
         $content_block = InstallUtils::getOrCreateInstance('block.content', 'Mouf\\Html\\HtmlElement\\HtmlBlock', $moufManager);
 
 
+        $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
 
         // Let's bind instances together.
         if (!$joomlaTemplate->getConstructorArgumentProperty('content')->isValueSet()){
-            $joomlaTemplate->getConstructorArgumentProperty('setWebLibraryManager')->setValue($content_block);
-        }
-        if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
-            $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
+            $joomlaTemplate->getConstructorArgumentProperty('content')->setValue($content_block);
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
