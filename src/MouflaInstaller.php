@@ -24,19 +24,36 @@ class MouflaInstaller implements PackageInstallerInterface {
             $configManager->registerConstant('SECRET', 'string', 'BSHVXjnWTgc5ojRHVyCB', 'A random string. It should be different for any application deployed.');
         }
 
+        // Provide a defaultWebLibraryRenderer adapted to Joomla
+        if ($moufManager->instanceExists("defaultWebLibraryRenderer")) {
+            // Let's remove the default defaultWebLibraryRenderer :)
+            $moufManager->removeComponent("defaultWebLibraryRenderer");
+        }
+        $joomlaWebLibraryRenderer = $moufManager->CreateInstance('Mouf\\Integration\\Joomla\\Moufla\\JoomlaWebLibraryRenderer');
+        $joomlaWebLibraryRenderer->setName("defaultWebLibraryRenderer");
 
-        // Let's create the instances.
+        // Let's create instances.
         $splashDefaultRouter = InstallUtils::getOrCreateInstance('splashDefaultRouter', 'Mouf\\Mvc\\Splash\\Routers\\SplashDefaultRouter', $moufManager);
         $mouflaNotFoundRouter = InstallUtils::getOrCreateInstance('mouflaNotFoundRouter', 'Mouf\\Integration\\Joomla\\Moufla\\MouflaNotFoundRouter', $moufManager);
         $splashCacheApc = InstallUtils::getOrCreateInstance('splashCacheApc', 'Mouf\\Utils\\Cache\\ApcCache', $moufManager);
         $splashCacheFile = InstallUtils::getOrCreateInstance('splashCacheFile', 'Mouf\\Utils\\Cache\\FileCache', $moufManager);
+        $joomlaTemplate = InstallUtils::getOrCreateInstance('joomlaTemplate', 'Mouf\\Integration\\Joomla\\Moufla\\JoomlaTemplate', $moufManager);
+        $content_block = InstallUtils::getOrCreateInstance('block.content', 'Mouf\\Html\\HtmlElement\\HtmlBlock', $moufManager);
+
+
 
         // Let's bind instances together.
-        if (!$splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->isValueSet()) {
-            $splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->setValue($mouflaNotFoundRouter);
+        if (!$joomlaTemplate->getConstructorArgumentProperty('content')->isValueSet()){
+            $joomlaTemplate->getConstructorArgumentProperty('setWebLibraryManager')->setValue($content_block);
+        }
+        if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
+            $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
+        }
+        if (!$splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->isValueSet()) {
+            $splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->setValue($mouflaNotFoundRouter);
         }
         if (!$splashCacheApc->getPublicFieldProperty('prefix')->isValueSet()) {
             $splashCacheApc->getPublicFieldProperty('prefix')->setValue('SECRET');
