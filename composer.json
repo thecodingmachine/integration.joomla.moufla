@@ -22,7 +22,9 @@
 		"mouf/mvc.splash-common" : "~5.0",
         "mouf/html.template.templateinterface" : "~2.0",
         "mouf/integration.joomla.moufla-joomlaplugin": "~1.0",
-        "mouf/integration.joomla.moufla-joomlacomponent": "~1.0"
+        "mouf/integration.joomla.moufla-joomlacomponent": "~1.0",
+		"mouf/utils.constants.secret" : "~1.0",
+		"mouf/utils.constants.debug" : "~1.0"
 	},
 	"autoload": {
         "psr-4": {"Mouf\\Integration\\Joomla\\Moufla\\": "src/"}
