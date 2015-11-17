@@ -3,6 +3,7 @@
 namespace Mouf\Integration\Joomla\Moufla;
 
 use Mouf\Actions\InstallUtils;
+use Mouf\Html\Renderer\ChainableRendererInterface;
 use Mouf\Installer\PackageInstallerInterface;
 use Mouf\MoufManager;
 
@@ -23,8 +24,6 @@ class MouflaInstaller implements PackageInstallerInterface {
             // Let's remove the default defaultWebLibraryRenderer :)
             $moufManager->removeComponent("defaultWebLibraryRenderer");
         }
-        $joomlaWebLibraryRenderer = $moufManager->CreateInstance('Mouf\\Integration\\Joomla\\Moufla\\JoomlaWebLibraryRenderer');
-        $joomlaWebLibraryRenderer->setName("defaultWebLibraryRenderer");
 
         // Let's create instances.
         $splashDefaultRouter = InstallUtils::getOrCreateInstance('splashDefaultRouter', 'Mouf\\Mvc\\Splash\\Routers\\SplashDefaultRouter', $moufManager);
@@ -38,8 +37,8 @@ class MouflaInstaller implements PackageInstallerInterface {
         if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
             $joomlaTemplate->getSetterProperty('webLibraryManager')->setValue($moufManager->getInstanceDescriptor("defaultWebLibraryManager"));
         }
-        if (!$joomlaTemplate->getConstructorArgumentProperty('content')->isValueSet()){
-            $joomlaTemplate->getConstructorArgumentProperty('content')->setValue($content_block);
+        if (!$joomlaTemplate->getSetterProperty('setContent')->isValueSet()){
+            $joomlaTemplate->getSetterProperty('setContent')->setValue($content_block);
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
@@ -59,6 +58,15 @@ class MouflaInstaller implements PackageInstallerInterface {
         if (!$splashCacheFile->getPublicFieldProperty('cacheDirectory')->isValueSet()) {
             $splashCacheFile->getPublicFieldProperty('cacheDirectory')->setValue('splashCache/');
         }
+
+
+        $joomlaRenderer = InstallUtils::getOrCreateInstance('joomlaRenderer', 'Mouf\\Html\\Renderer\\FileBasedRenderer', $moufManager);
+        $joomlaRenderer->getProperty('directory')->setValue('vendor/mouf/integration.joomla.moufla/src/templates');
+        $joomlaRenderer->getProperty('cacheService')->setValue($moufManager->getInstanceDescriptor('rendererCacheService'));
+        $joomlaRenderer->getProperty('type')->setValue(ChainableRendererInterface::TYPE_TEMPLATE);
+        $joomlaRenderer->getProperty('priority')->setValue(0);
+        $joomlaTemplate->getProperty('templateRenderer')->setValue($joomlaRenderer);
+        $joomlaTemplate->getProperty('defaultRenderer')->setValue($moufManager->getInstanceDescriptor('defaultRenderer'));
 
         // Let's rewrite the MoufComponents.php file to save the component
         $moufManager->rewriteMouf();

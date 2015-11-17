@@ -4,15 +4,11 @@ namespace Mouf\Integration\Joomla\Moufla;
 
 
 use Mouf\Html\HtmlElement\HtmlBlock;
+use Mouf\Html\Template\BaseTemplate\BaseTemplate;
 use Mouf\Html\Template\TemplateInterface;
 use Mouf\Html\Utils\WebLibraryManager\WebLibraryManager;
 
-class JoomlaTemplate implements TemplateInterface {
-    /**
-     * The main content block of the page.
-     * @var HtmlBlock
-     */
-    protected $content;
+class JoomlaTemplate extends BaseTemplate {
 
     /**
      * @var boolean if the template has been called or not
@@ -20,65 +16,17 @@ class JoomlaTemplate implements TemplateInterface {
     private $templateCalled;
 
     /**
-     * The title of the HTML page
+     * Tells Joomla that the content should be rendered into the theme.
+     * This does actually not call any real rendering.
+     * It just sets a flag to inform Drupal that rendering should be performed (instead of going the Ajax way).
      *
-     * @var string
+     * The toHtml() name is kept so that we can keep the same code between Splash and Druplash.
      */
-    private $title;
-
-    /**
-     * The weblibrarymanager is in charge of handing JS files.
-     *
-     * @var WebLibraryManagerInterface
-     */
-    private $webLibraryManager;
-
-    /**
-     * @param HtmlBlock $content
-     */
-    public function __construct($content) {
-        $this->templateCalled = false;
-        $this->content = $content;
-    }
-
-    /**
-     * Sets the title for the HTML page
-     * @param string $title
-     * @return TemplateInterface
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-        return $this->title;
-    }
-
-    /**
-     * Returns the WebLibraryManager object that can be used to add JS/CSS files to this template.
-     *
-     * @return WebLibraryManager
-     */
-    public function getWebLibraryManager() {
-        return $this->webLibraryManager;
-    }
-
-    /**
-     * Sets the web library manager for this template.
-     *
-     * @param WebLibraryManager $webLibraryManager
-     * @return JoomlaTemplate
-     */
-    public function setWebLibraryManager(WebLibraryManager $webLibraryManager) {
-        $this->webLibraryManager = $webLibraryManager;
-        return $this;
-    }
-
-    /**
-     * Renders the object in HTML.
-     *
-     * The Html is echoed directly into the output.
-     */
-    function toHtml() {
+    public function toHtml()
+    {
         $this->templateCalled = true;
-        $this->webLibraryManager->toHtml();
+        $this->getDefaultRenderer()->setTemplateRenderer($this->getTemplateRenderer());
+        $this->getWebLibraryManager()->toHtml();
         $this->content->toHtml();
     }
 
@@ -88,4 +36,4 @@ class JoomlaTemplate implements TemplateInterface {
     public function getTemplateCalled() {
         return $this->templateCalled;
     }
-} 
+}

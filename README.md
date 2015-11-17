@@ -31,6 +31,11 @@ Another interesting feature is that your code is **100% compatible** with Splash
   Yes, you read it correctly, you can develop an application that will run on Wordpress, Drupal and Joomla (!)
   Haha! I see you're interested. Let's get started!
 
+Supported Joomla version
+------------------------
+
+Moufla 2.x is compatible with Joomla 3.x.
+
 Installation
 ------------
 
@@ -57,13 +62,8 @@ You will first need to install Joomla and Mouf side by side.
 
    Do not forget to customize your vendor name (the `MyApp` part of the autoloader section).
 4. Create the empty `src/` directory at the root of your project.
-5. Run the install process in Mouf: connect to Mouf UI and run the install process for all the packages 
-   (including the Moufla install process of course)
-6. In Moufla backend, click the *Extensions* menu, then *Install* submenu. Click the "Install from folder" tab and
-   enter this path: `[path to your project]/plugins/moufla`.
-7. When you downloaded Moufla, Composer automatically copied a Moufla plugin in the `wp-content/plugins` directory of
-   Wordpress. You need to install this plugin. Connect to your Wordpress admin,  select the **Plugins > Installed plugins** 
-   menu, and click on the "Activate" button for the "Moufla" plugin.
+5. Run the install process in Mouf: connect to Mouf UI (go to localhost/your_folder/vendor/mouf/mouf) 
+   and run the install process for all the packages  (including the Moufla install process of course)
 
 
 Getting started
@@ -76,4 +76,3 @@ Or if you already know Splash, you can directly jump to another part of this doc
 - [widgets integration](doc/widgets.md)
 - [authentication and authorization](doc/authentication_and_right_management.md)
 - [web library (JS/CSS)](doc/scripts-and-styles.md)
-
