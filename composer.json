@@ -11,7 +11,7 @@
 	"type" : "mouf-library",
 	"license" : "MIT",
 	"authors" : [{
-			"name" : "Guillaume Van Der Putte",
+			"name" : "Guillaume Van Der Putte"
 		},
 		{
 			"name" : "David Négrier",
