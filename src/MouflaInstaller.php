@@ -33,6 +33,8 @@ class MouflaInstaller implements PackageInstallerInterface {
         $joomlaTemplate = InstallUtils::getOrCreateInstance('joomlaTemplate', 'Mouf\\Integration\\Joomla\\Moufla\\JoomlaTemplate', $moufManager);
         $content_block = InstallUtils::getOrCreateInstance('block.content', 'Mouf\\Html\\HtmlElement\\HtmlBlock', $moufManager);
         $moufExplorerUrlProvider = InstallUtils::getOrCreateInstance('moufExplorerUrlProvider', 'Mouf\\Mvc\\Splash\\Services\\MoufExplorerUrlProvider', $moufManager);
+        $splashMiddleware = InstallUtils::getOrCreateInstance('splashMiddleware', 'Mouf\\Mvc\\Splash\\SplashMiddleware', $moufManager);
+        $anonymousRouter = $moufManager->createInstance('Mouf\\Mvc\\Splash\\Routers\\Router');
 
         // Let's bind instances together.
         if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
@@ -62,6 +64,10 @@ class MouflaInstaller implements PackageInstallerInterface {
         if (!$splashCacheFile->getPublicFieldProperty('cacheDirectory')->isValueSet()) {
             $splashCacheFile->getPublicFieldProperty('cacheDirectory')->setValue('splashCache/');
         }
+        if (!$splashMiddleware->getConstructorArgumentProperty('routers')->isValueSet()) {
+            $splashMiddleware->getConstructorArgumentProperty('routers')->setValue(array(0 => $anonymousRouter, ));
+        }
+        $anonymousRouter->getConstructorArgumentProperty('middleware')->setValue($splashDefaultRouter);
 
 
         $joomlaRenderer = InstallUtils::getOrCreateInstance('joomlaRenderer', 'Mouf\\Html\\Renderer\\FileBasedRenderer', $moufManager);

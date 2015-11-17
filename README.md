@@ -34,7 +34,7 @@ Another interesting feature is that your code is **100% compatible** with Splash
 Supported Joomla version
 ------------------------
 
-Moufla 2.x is compatible with Joomla 3.x.
+Moufla 2.x is compatible with Joomla 3.x and Splash MVC 7.x.
 
 Installation
 ------------
@@ -73,6 +73,4 @@ Getting started
 
 Or if you already know Splash, you can directly jump to another part of this documentation:
 
-- [widgets integration](doc/widgets.md)
-- [authentication and authorization](doc/authentication_and_right_management.md)
 - [web library (JS/CSS)](doc/scripts-and-styles.md)

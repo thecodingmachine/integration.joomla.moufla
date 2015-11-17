@@ -44,7 +44,16 @@
                 "scope": "local",
                 "description": "Install routers to handle Joomla. This is Moufla!"
                 }
-            ]
+            ],
+			"logo" : "logo.png",
+			"doc" : [{
+				"title" : "Writing controllers and views",
+				"url" : "doc/mvc.md"
+			}, {
+				"title" : "Scripts and styles",
+				"url" : "doc/scripts-and-styles.md"
+			}
+			]
         }
     }
 }
