@@ -32,6 +32,7 @@ class MouflaInstaller implements PackageInstallerInterface {
         $splashCacheFile = InstallUtils::getOrCreateInstance('splashCacheFile', 'Mouf\\Utils\\Cache\\FileCache', $moufManager);
         $joomlaTemplate = InstallUtils::getOrCreateInstance('joomlaTemplate', 'Mouf\\Integration\\Joomla\\Moufla\\JoomlaTemplate', $moufManager);
         $content_block = InstallUtils::getOrCreateInstance('block.content', 'Mouf\\Html\\HtmlElement\\HtmlBlock', $moufManager);
+        $moufExplorerUrlProvider = InstallUtils::getOrCreateInstance('moufExplorerUrlProvider', 'Mouf\\Mvc\\Splash\\Services\\MoufExplorerUrlProvider', $moufManager);
 
         // Let's bind instances together.
         if (!$joomlaTemplate->getSetterProperty('webLibraryManager')->isValueSet()){
@@ -39,6 +40,9 @@ class MouflaInstaller implements PackageInstallerInterface {
         }
         if (!$joomlaTemplate->getSetterProperty('setContent')->isValueSet()){
             $joomlaTemplate->getSetterProperty('setContent')->setValue($content_block);
+        }
+        if (!$splashDefaultRouter->getConstructorArgumentProperty('routeProviders')->isValueSet()) {
+            $splashDefaultRouter->getConstructorArgumentProperty('routeProviders')->setValue($moufExplorerUrlProvider);
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
