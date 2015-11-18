@@ -2,14 +2,13 @@
 
 namespace Mouf\Integration\Joomla\Moufla;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Mouf\Mvc\Splash\Controllers\Http404HandlerInterface;
 use Mouf\Utils\Value\ValueInterface;
 use Mouf\Utils\Value\ValueUtils;
-use Symfony\Component\HttpFoundation\Response;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Mouf\Mvc\Splash\Services\SplashUtils;
+use Zend\Stratigility\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 
 /**
@@ -17,26 +16,37 @@ use Mouf\Mvc\Splash\Services\SplashUtils;
  * 
  * @author Guillaume Van Der Putte
  */
-class MouflaNotFoundRouter implements HttpKernelInterface {
+class MouflaNotFoundRouter implements MiddlewareInterface
+{
+
 	/**
-	 * Handles a Request to convert it to a Response.
+	 * Process an incoming request and/or response.
 	 *
-	 * When $catch is true, the implementation must catch all exceptions
-	 * and do its best to convert them to a Response instance.
+	 * Accepts a server-side request and a response instance, and does
+	 * something with them.
 	 *
-	 * @param Request $request A Request instance
-	 * @param int     $type    The type of the request
-	 *                          (one of HttpKernelInterface::MASTER_REQUEST or HttpKernelInterface::SUB_REQUEST)
-	 * @param bool    $catch Whether to catch exceptions or not
+	 * If the response is not complete and/or further processing would not
+	 * interfere with the work done in the middleware, or if the middleware
+	 * wants to delegate to another process, it can use the `$out` callable
+	 * if present.
 	 *
-	 * @return Response A Response instance
+	 * If the middleware does not return a value, execution of the current
+	 * request is considered complete, and the response instance provided will
+	 * be considered the response to return.
 	 *
-	 * @throws \Exception When an Exception occurs during processing
+	 * Alternately, the middleware may return a response instance.
+	 *
+	 * Often, middleware will `return $out();`, with the assumption that a
+	 * later middleware will return a response.
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param null|callable $out
+	 *
+	 * @return null|Response
 	 */
-	public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true) {
-        $response = new Response();
-        $response->setVary("mouflaNotFound");
-        $response->setStatusCode(404, "Mouf component not found");
-		return $response;
+	public function __invoke(Request $request, Response $response, callable $out = null)
+	{
+		return $response->withHeader("Vary", "mouflaNotFound")->withStatus(404, "Mouf component not found");
 	}
 }
