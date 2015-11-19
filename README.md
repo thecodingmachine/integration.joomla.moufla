@@ -43,7 +43,7 @@ You will first need to install Joomla and Mouf side by side.
 
 1. Start by installing [Joomla](http://joomla.org/) as you would normally do.
 2. [Install the Mouf PHP framework](http://mouf-php.com/packages/mouf/mouf/doc/installing_mouf.md) _in the same directory_ as Joomla
-   This means you should have the **composer.json** file of Composer in the same directory as the **wp-config.php** of Joomla.
+   This means you should have the **composer.json** file of Composer in the same directory as the **configuration.php** of Joomla.
 3. Modify **composer.json** and add the **moufla** module. Your **composer.json** should contain at least these lines: 
 
 		{
