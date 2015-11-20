@@ -27,7 +27,6 @@ class MouflaInstaller implements PackageInstallerInterface {
 
         // Let's create instances.
         $splashDefaultRouter = InstallUtils::getOrCreateInstance('splashDefaultRouter', 'Mouf\\Mvc\\Splash\\Routers\\SplashDefaultRouter', $moufManager);
-        $mouflaNotFoundRouter = InstallUtils::getOrCreateInstance('mouflaNotFoundRouter', 'Mouf\\Integration\\Joomla\\Moufla\\MouflaNotFoundRouter', $moufManager);
         $splashCacheApc = InstallUtils::getOrCreateInstance('splashCacheApc', 'Mouf\\Utils\\Cache\\ApcCache', $moufManager);
         $splashCacheFile = InstallUtils::getOrCreateInstance('splashCacheFile', 'Mouf\\Utils\\Cache\\FileCache', $moufManager);
         $joomlaTemplate = InstallUtils::getOrCreateInstance('joomlaTemplate', 'Mouf\\Integration\\Joomla\\Moufla\\JoomlaTemplate', $moufManager);
@@ -48,11 +47,6 @@ class MouflaInstaller implements PackageInstallerInterface {
         }
         if (!$splashDefaultRouter->getConstructorArgumentProperty('cacheService')->isValueSet()) {
             $splashDefaultRouter->getConstructorArgumentProperty('cacheService')->setValue($splashCacheApc);
-        }
-        $splashDefaultRouter->getConstructorArgumentProperty('fallBackRouter')->setValue($mouflaNotFoundRouter);
-        if (!$splashCacheApc->getPublicFieldProperty('prefix')->isValueSet()) {
-            $splashCacheApc->getPublicFieldProperty('prefix')->setValue('SECRET');
-            $splashCacheApc->getPublicFieldProperty('prefix')->setOrigin("config");
         }
         if (!$splashCacheApc->getPublicFieldProperty('fallback')->isValueSet()) {
             $splashCacheApc->getPublicFieldProperty('fallback')->setValue($splashCacheFile);
