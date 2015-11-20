@@ -41,7 +41,6 @@
                 {
                 "type": "class",
                 "class": "Mouf\\Integration\\Joomla\\Moufla\\MouflaInstaller",
-                "scope": "local",
                 "description": "Install routers to handle Joomla. This is Moufla!"
                 }
             ],
